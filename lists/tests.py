@@ -1,5 +1,9 @@
+from django.core.urlresolvers import resolve
 from django.test import TestCase
 
-class SomeTest(TestCase):
-    def test(self):
-        self.assertEqual(1 + 1, 3)
+from .views import home
+
+class HomePageTest(TestCase):
+    def test_root_url_resolves_to_home_page(self):
+        found = resolve('/')
+        self.assertEqual(found.func, home)

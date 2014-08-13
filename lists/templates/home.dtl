@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.dtl' %}
 
 {% block header_text %}Start a new To-Do list{% endblock %}
 

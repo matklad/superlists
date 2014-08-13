@@ -15,7 +15,7 @@ class HomePageTest(TestCase):
     def test_home_page_return_correct_html(self):
         request = HttpRequest()
         response = home_page(request)
-        expected_html = render_to_string('home.html')
+        expected_html = render_to_string('home.dtl')
         self.assertEqual(response.content.decode(), expected_html)
 
 
@@ -24,7 +24,7 @@ class ListViewTestCase(TestCase):
     def test_uses_list_template(self):
         list_ = List.objects.create()
         response = self.client.get('/lists/{}/'.format(list_.id))
-        self.assertTemplateUsed(response, 'list.html')
+        self.assertTemplateUsed(response, 'list.dtl')
 
     def test_displays_only_items_for_that_list(self):
         correct_list = List.objects.create()

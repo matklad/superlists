@@ -1,2 +1,2 @@
-https://github.com/matklad/superlists.git
+https://www.djangoproject.com/download/1.7c2/tarball/
 selenium==2.42.1

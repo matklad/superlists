@@ -5,18 +5,17 @@ from ..models import Item, List
 class ListAndItemModelTest(TestCase):
 
     def test_saving_and_retrieving_items(self):
-        list_ = List()
-        list_.save()
+        list_ = List.objects.create()
 
-        first_item = Item()
-        first_item.text = 'The first (ever) list item'
-        first_item.list = list_
-        first_item.save()
+        first_item = Item.objects.create(
+            text='The first (ever) list item',
+            list=list_
+        )
 
-        second_item = Item()
-        second_item.text = 'Item the second'
-        second_item.list = list_
-        second_item.save()
+        second_item = Item.objects.create(
+            text='Item the second',
+            list=list_
+        )
 
         saved_list = List.objects.first()
         self.assertEqual(saved_list, list_)

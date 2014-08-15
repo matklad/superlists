@@ -3,7 +3,6 @@ import sys
 import unittest
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from django.contrib.staticfiles.testing import StaticLiveServerCase
 
 
@@ -30,7 +29,20 @@ class FunctionalTest(StaticLiveServerCase):
     def tearDown(self):
         self.browser.quit()
 
+    def start_new_session(self):
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
     def check_for_row_in_list_tabel(self, row_text):
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = self.browser.find_elements_by_tag_name('tr')
+        table = self.find('#id_list_table')
+        rows = self.find_all('tr')
         self.assertIn(row_text, [row.text for row in rows])
+
+    def visit_home(self):
+        self.browser.get(self.server_url)
+
+    def find(self, selector):
+        return self.browser.find_element_by_css_selector(selector)
+
+    def find_all(self, selector):
+        return self.browser.find_elements_by_css_selector(selector)

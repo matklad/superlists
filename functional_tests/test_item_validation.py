@@ -1,5 +1,7 @@
 from .base import FunctionalTest
 
+import time
+
 
 class ItemValidationTest(FunctionalTest):
 
@@ -10,7 +12,7 @@ class ItemValidationTest(FunctionalTest):
         self.find('#id_new_item').send_keys('\n')
 
         # The page refreshes and showes an error message
-        error = self.find('.has_error')
+        error = self.find('.has-error')
         self.assertEqual(error.text, "You can't have an empty list item")
 
         # She tries again with some text for the item, which now works

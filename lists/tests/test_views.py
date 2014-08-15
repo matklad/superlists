@@ -20,6 +20,28 @@ class HomePageTest(TestCase):
         self.assertEqual(response.content.decode(), expected_html)
 
 
+class NewListViewTestCase(TestCase):
+
+    def test_saving_a_POST_request(self):
+        self.client.post(
+            '/lists/new',
+            data={'item_text': 'A new list item'}
+        )
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+    def test_redirects_afer_POST(self):
+        response = self.client.post(
+            '/lists/new',
+            data={'item_text': 'A new list item'}
+        )
+
+        new_list = List.objects.first()
+        self.assertRedirects(response, '/lists/{}/'.format(new_list.id))
+
+
 class ListViewTestCase(TestCase):
 
     def test_uses_list_template(self):
@@ -41,25 +63,6 @@ class ListViewTestCase(TestCase):
         self.assertContains(response, 'itemy 2')
         self.assertNotContains(response, 'other item 1')
         self.assertNotContains(response, 'other item 2')
-
-    def test_saving_a_POST_request(self):
-        self.client.post(
-            '/lists/new',
-            data={'item_text': 'A new list item'}
-        )
-
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.first()
-        self.assertEqual(new_item.text, 'A new list item')
-
-    def test_redirects_afer_POST(self):
-        response = self.client.post(
-            '/lists/new',
-            data={'item_text': 'A new list item'}
-        )
-
-        new_list = List.objects.first()
-        self.assertRedirects(response, '/lists/{}/'.format(new_list.id))
 
     def test_passes_correct_list_to_template(self):
         other_list = List.objects.create()

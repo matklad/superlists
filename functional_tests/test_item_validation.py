@@ -24,10 +24,10 @@ class ItemValidationTest(FunctionalTest):
 
         # Alice receives a similar warning on the list page
         self.check_for_row_in_list_tabel('1: Buy milk')
-        error = self.find('.has_error')
+        error = self.find('.has-error')
         self.assertEqual(error.text, "You can't have an empty list item")
 
         # And she can correct it by filling in some text.
-        self.find('#id_new_item').send_keys('Make tea')
+        self.find('#id_new_item').send_keys('Make tea\n')
         self.check_for_row_in_list_tabel('1: Buy milk')
-        self.check_for_row_in_list_tabel('1: Make tea')
+        self.check_for_row_in_list_tabel('2: Make tea')

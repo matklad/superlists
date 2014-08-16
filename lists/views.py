@@ -9,6 +9,15 @@ from .forms import ItemForm
 def home_page(request):
     return render(request, 'home.dtl', {'form': ItemForm()})
 
+def new_list(request):
+    form = ItemForm(data=request.POST)
+    if form.is_valid():
+        list_ = List.objects.create()
+        form.save(for_list=list_)
+        return redirect(list_)
+
+    return render(request, 'home.dtl', {'form': form})
+
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
 
@@ -16,16 +25,7 @@ def view_list(request, list_id):
     if request.method == 'POST':
         form = ItemForm(data=request.POST)
         if form.is_valid():
-            item = Item.objects.create(text=request.POST['text'], list=list_)
+            form.save(for_list=list_)
             return redirect(list_)
 
     return render(request, 'list.dtl', {'list': list_, 'form': form})
-
-def new_list(request):
-    form = ItemForm(data=request.POST)
-    if form.is_valid():
-        list_ = List.objects.create()
-        item = Item.objects.create(text=request.POST['text'], list=list_)
-        return redirect(list_)
-
-    return render(request, 'home.dtl', {'form': form})

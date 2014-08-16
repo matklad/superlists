@@ -4,9 +4,10 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 
 from .models import Item, List
+from .forms import ItemForm
 
 def home_page(request):
-    return render(request, 'home.dtl')
+    return render(request, 'home.dtl', {'form': ItemForm()})
 
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)

@@ -6,7 +6,10 @@ from django.utils.html import escape
 
 from ..views import home_page
 from ..models import Item, List
-from ..forms import ItemForm, EMPTY_ITEM_ERROR
+from ..forms import (
+    ItemForm, ExistingListForm,
+    EMPTY_ITEM_ERROR, DUPLICATE_ITEM_ERROR
+)
 
 class HomePageTest(TestCase):
 
@@ -67,7 +70,7 @@ class ListViewTestCase(TestCase):
     def test_displays_item_form(self):
         list_ = List.objects.create()
         response = self.client.get('/lists/{}/'.format(list_.id))
-        self.assertIsInstance(response.context['form'], ItemForm)
+        self.assertIsInstance(response.context['form'], ExistingListForm)
         self.assertContains(response, 'name="text"')
 
     def test_displays_only_items_for_that_list(self):
@@ -134,7 +137,7 @@ class ListViewTestCase(TestCase):
 
     def test_for_invalid_input_passes_form_to_template(self):
         response = self.post_invalid_input()
-        self.assertIsInstance(response.context['form'], ItemForm)
+        self.assertIsInstance(response.context['form'], ExistingListForm)
 
     def test_for_invalid_input_show_error_on_the_page(self):
         response = self.post_invalid_input()
@@ -148,7 +151,7 @@ class ListViewTestCase(TestCase):
             data={'text': 'quux'}
         )
 
-        expected_error = escape("You've already got this in your list")
+        expected_error = escape(DUPLICATE_ITEM_ERROR)
         self.assertContains(response, expected_error)
-        self.assertTemplateUsed(response, 'list.html')
+        self.assertTemplateUsed(response, 'list.dtl')
         self.assertEqual(Item.objects.count(), 1)

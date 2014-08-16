@@ -38,6 +38,9 @@ class FunctionalTest(StaticLiveServerCase):
         rows = self.find_all('tr')
         self.assertIn(row_text, [row.text for row in rows])
 
+    def find_item_input_box(self):
+        return self.find('#id_text')
+
     def visit_home(self):
         self.browser.get(self.server_url)
 

@@ -1,5 +1,8 @@
 {
   "undef": true,
   "unused": true,
-  "predef": [ "jQuery" , "document"]
+  "browser": true,
+  "jquery": true,
+  "devel": true,
+  "predef": ["Superlists", "sinon", "module", "test", "ok", "equal"]
 }

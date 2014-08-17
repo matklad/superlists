@@ -47,7 +47,7 @@ class MyListTest(FunctionalTest):
 
         # She decides to add another list, just to see
         self.visit_home()
-        self.find_item_input_box().send_kesy('Click cookies\n')
+        self.find_item_input_box().send_keys('Click cookies\n')
         second_list_url = self.browser.current_url
 
         # Under "my lists" her new list appears

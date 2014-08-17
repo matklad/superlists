@@ -3,6 +3,10 @@ class Page(object):
     def __init__(self, test):
         self.test = test
 
+    def get_item_input(self):
+        return self.test.find('#id_text')
+
+
 class HomePage(Page):
 
     def visit_home(self):
@@ -10,8 +14,12 @@ class HomePage(Page):
         self.test.wait(self.get_item_input)
         return self
 
-    def get_item_input(self):
-        return self.test.find('#id_text')
+    def visit_my_lists(self):
+        self.test.browser.find_element_by_link_text('My lists').click()
+        self.test.wait_for(lambda: self.test.assertEqual(
+            self.test.find('h1').text,
+            'My Lists'
+        ))
 
     def start_new_list(self, item_text):
         self.visit_home()
@@ -46,3 +54,11 @@ class ListPage(Page):
             email,
             [item.text for item in self.get_shared_with_list()]
         ))
+
+    def add_new_item(self, item_text):
+        current_pos = len(self.get_list_table_rows())
+        self.get_item_input().send_keys(item_text + '\n')
+        self.wait_for_new_item_in_list(item_text, current_pos + 1)
+
+    def get_list_owner(self):
+        return self.test.find('#id_list_owner').text

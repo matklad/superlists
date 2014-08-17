@@ -36,3 +36,24 @@ class SharingTest(FunctionalTest):
 
         # She shares her list
         list_page.share_list_with('bob@example.com')
+
+        # Bob now goes to the lists page with his browser
+        self.browser = bob_browser
+        HomePage(self).visit_home().visit_my_lists()
+
+        # He sees Alice's list in there!
+        self.browser.find_element_by_link_text('Get help').click()
+
+        # On the list page, Bob can see that it's Alice's list
+        self.wait(lambda: self.assertEqual(
+            list_page.get_list_owner(),
+            'alice@example.com'
+        ))
+
+        # He adds an item to the list
+        list_page.add_new_item('Hi Alice')
+
+        # When Alice refreshes the page, she sees Bob's addition
+        self.browser = alice_browser
+        self.browser.refresh()
+        list_page.wait_for_new_item_in_list('Hi Alice', 2)

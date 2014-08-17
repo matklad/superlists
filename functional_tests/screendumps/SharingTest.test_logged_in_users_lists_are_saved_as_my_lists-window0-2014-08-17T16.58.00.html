@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <title>To-Do lists</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link media="screen" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link media="screen" rel="stylesheet" href="/static/base.css" />
+    <link href="/static/favicon.ico" type="image/png" rel="shortcut icon" />
+  </head>
+  <body>
+    <div class="container">
+      <div role="navigation" class="navbar navbar-default">
+        <a href="/" class="navbar-brand">Superlists</a>
+        
+          <ul class="nav navbar-nav">
+            <li><a href="/lists/users/alice@example.com/">My lists</a></li>
+          </ul>
+          <a href="/accounts/logout" id="id_logout" class="btn navbar-btn navbar-right">Log out</a>
+          <span class="navbar-text navbar-right">Logged in as alice@example.com</span>
+        
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 jumbotron">
+          <div class="text-center">
+                <h1>Your To-Do list</h1>
+
+                
+                  <form action="/lists/1/" method="POST">
+                    <input type="text" placeholder="Enter a to-do item" name="text" id="id_text" class="form-control input-lg" />
+                    <input type="hidden" value="5eW4zFwW7F0UCokiKZwozlIV5Vxv5lJ6" name="csrfmiddlewaretoken" />
+                    
+                  </form>
+                
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          
+  <table class="table" id="id_list_table">
+    
+      <tbody><tr><td>1: Get help</td></tr>
+    
+  </tbody></table>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+           
+        </div>
+      </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="https://login.persona.org/include.js"></script>
+    <script src="/static/list.js"></script>
+    <script src="/static/accounts.js"></script>
+    <script>
+     $(document).ready(function () {
+       var user = "alice@example.com" || null;
+       var token = "5eW4zFwW7F0UCokiKZwozlIV5Vxv5lJ6";
+       var urls = {
+         login: "/accounts/login",
+         logout: "TODO"
+       }
+       Superlists.Accounts.initialize(navigator, user, token, urls);
+     });
+    </script>
+  
+
+<iframe style="display: none;" src="https://login.persona.org/communication_iframe"></iframe></body><canvas id="fxdriver-screenshot-canvas" style="display: none;" width="1008" height="495"></canvas></html>

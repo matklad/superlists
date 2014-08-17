@@ -2,14 +2,18 @@
 import sys
 import os
 import unittest
+import time
 from datetime import datetime
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import WebDriverException
 from django.contrib.staticfiles.testing import StaticLiveServerCase
 
 from .server_tools import reset_database
 
+
+DEFAULT_WAIT = 5
 SCREEN_DUMP_LOCATION = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'screendumps')
 )
@@ -98,6 +102,15 @@ class FunctionalTest(StaticLiveServerCase):
                 selector, self.find('body').text
             )
         )
+
+    def wait(self, f, timeout=DEFAULT_WAIT):
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            try:
+                return f()
+            except (AssertionError, WebDriverException):
+                time.sleep(.1)
+            return f()
 
     def check_for_row_in_list_tabel(self, row_text):
         table = self.find('#id_list_table')

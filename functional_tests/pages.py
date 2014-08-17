@@ -25,7 +25,7 @@ class HomePage(Page):
 class ListPage(Page):
 
     def get_list_table_rows(self):
-        return self.test.find('#id_list_table tr')
+        return self.test.find_all('#id_list_table tr')
 
     def wait_for_new_item_in_list(self, item_text, position):
         expected_row = '{}: {}'.format(position, item_text)
@@ -38,7 +38,7 @@ class ListPage(Page):
         return self.test.find('input[name=email]')
 
     def get_shared_with_list(self):
-        return self.test.find('.list-sharee')
+        return self.test.find_all('.list-sharee')
 
     def share_list_with(self, email):
         self.get_share_box().send_keys(email + '\n')
